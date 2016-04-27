@@ -1,4 +1,4 @@
-package org.richfaces.demo.panelmenu;
+package com.kiber.books.jsf;
  
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
