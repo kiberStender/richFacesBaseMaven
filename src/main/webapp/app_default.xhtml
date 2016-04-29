@@ -9,16 +9,18 @@
 <h:body>
     <H2>
         <h:outputText value="Olá JSF!" />
-        <h:outputStylesheet>
+    </H2>
+
+    <h:outputStylesheet>
         .cols {
-            vertical-align: top;
+        vertical-align: top;
         }
     </h:outputStylesheet>
     <h:form id="form">
         <h:panelGrid columns="2" columnClasses="cols,cols" width="400">
             <rich:panelMenu style="width:200px" itemMode="ajax" groupMode="ajax" groupExpandedLeftIcon="triangleUp"
-                groupCollapsedLeftIcon="triangleDown" topGroupExpandedRightIcon="chevronUp"
-                topGroupCollapsedRightIcon="chevronDown" itemLeftIcon="disc" itemChangeListener="#{panelMenuBean.updateCurrent}">
+                            groupCollapsedLeftIcon="triangleDown" topGroupExpandedRightIcon="chevronUp"
+                            topGroupCollapsedRightIcon="chevronDown" itemLeftIcon="disc" itemChangeListener="#{panelMenuBean.updateCurrent}">
                 <rich:panelMenuGroup label="Group 1">
                     <rich:panelMenuItem label="Item 1.1" name="Item_1_1" />
                     <rich:panelMenuItem label="Item 1.2" name="Item_1_2" />
@@ -43,11 +45,37 @@
             </rich:panelMenu>
             <a4j:outputPanel ajaxRendered="true">
                 <rich:panel rendered="#{not empty panelMenuBean.current}">
-                    <h:outputText value="#{panelMenuBean.current} selected" id="current" />
+                    <h:outputText value="#{panelMenuBean.current}" />
                 </rich:panel>
             </a4j:outputPanel>
         </h:panelGrid>
     </h:form>
-    </H2>
+
+    <h:form id="nform">
+        <h:selectOneMenu id="selectS" value="#{panelMenuBean.currentType}" valueChangeListener="#{panelMenuBean.onItemChange}">
+            <f:selectItems value="#{panelMenuBean.select}" />
+            <a4j:ajax event="valueChange" render="person" execute="@this" />
+        </h:selectOneMenu>
+
+        <a4j:outputPanel id="person" ajaxRendered="true">
+            <rich:panel rendered="#{not empty panelMenuBean.p.surname}">
+                <h:outputText value="Name" />: <h:outputText value="#{panelMenuBean.p.name}" /> <br/>
+                <h:outputText value="Surname" />: <h:outputText value="#{panelMenuBean.p.surname}" />
+            </rich:panel>
+        </a4j:outputPanel>
+
+        <h:panelGrid>
+            <h:outputText value="Add new Person" />
+            <h:outputText value="Name" /> <h:inputText value="#{panelMenuBean.iP.name}" />
+            <h:outputText value="Surname" /> <h:inputText value="#{panelMenuBean.iP.surname}" />
+
+            <h:commandButton value="Insert">
+                <a4j:actionListener listener="#{panelMenuBean.insertPerson}"/>
+                <f:ajax render="selectS"/>
+            </h:commandButton>
+        </h:panelGrid>
+    </h:form>
+
+
 </h:body>
 </html>
